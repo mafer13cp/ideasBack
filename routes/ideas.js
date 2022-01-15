@@ -3,63 +3,57 @@ const router = Router();
 const connection = require('../database');
 
 //GET
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     let sql = "SELECT * FROM idea";
-    connection.query(sql, (err, rows, fields) => {
-    if (err) {
-        throw err;
+    try {
+        let sql = "SELECT * FROM idea";
+        res.status(200).send(await connection.query(sql));
+    } catch (error) {
+        console.log(error);
     }
-    res.status(200).send(rows);
-    })
 });
 
 //GET by ID
-router.get("/:id", (req, res) => {
+router.get("/:id", async(req, res) => {
     let sql = `SELECT * FROM idea WHERE id = ${req.params.id}`;
-    connection.query(sql, (err, rows, fields) => {
-    if (err) {
-        throw err;
+    try {
+        res.status(200).send(await connection.query(sql));
+    } catch (error) {
+        console.log(error);
     }
-    res.status(200).send(rows);
-    })
 });
 
 //POST
-router.post("/post", (req, res) => {
+router.post("/post", async(req, res) => {
     let sql = "INSERT INTO `idea` (`id`, `date`, `summary`, `asignees`, `workflow`, `reviewScore`, `reviewNumber`, `user`, `anonymous`) VALUES (NULL, ?,?,?,?,?,?,?,?)";
     const {date, summary, asignees, workflow, reviewScore, reviewNumber, user, anonymous} = req.body;
-    connection.query(sql,[date,summary,asignees,workflow,reviewScore,reviewNumber,user,anonymous],
-         (err, rows, fields) => {
-        if (err) {
-            throw err;
-        }
-        res.status(200).send(rows);
-        })
+    try {
+        res.status(200).send(await connection.query(sql, [date,summary,asignees,workflow,reviewScore,reviewNumber,user,anonymous]));
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 //PUT (UPDATE)
-router.put("/update/:id", (req, res) => {
+router.put("/update/:id", async(req, res) => {
     let sql = "UPDATE `idea` SET `date` = ?, `summary` = ?, `asignees` = ?, `workflow` = ?, `reviewScore` = ?, `reviewNumber` = ?, `user` = ?, `anonymous` = ? WHERE `id` = " + req.params.id;
     const {date, summary, asignees, workflow, reviewScore, reviewNumber, user, anonymous} = req.body;
-    connection.query(sql,[date,summary,asignees,workflow,reviewScore,reviewNumber,user,anonymous],
-         (err, rows, fields) => {
-        if (err) {
-            throw err;
-        }
-        res.status(200).send(rows);
-        })
+    try {
+        res.status(200).send(await connection.query(sql, [date,summary,asignees,workflow,reviewScore,reviewNumber,user,anonymous]));
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 
 //DELETE
-router.delete("/delete/:id", (req, res) => {
+router.delete("/delete/:id", async(req, res) => {
     let sql = `DELETE FROM idea WHERE id = ${req.params.id}`;
-    connection.query(sql, (err, rows, fields) => {
-        if (err) {
-            throw err;
-        }
-        res.status(200).send(rows);
-        })
+    try {
+        res.status(200).send(await connection.query(sql));
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 module.exports = router;

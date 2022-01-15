@@ -1,25 +1,21 @@
-const mysql = require('mysql');
+const mysql = require('mysql2/promise');
 
 //#region mysql database connection
-var connection = mysql.createConnection({ 
-    url: DATABASE_URL,
+var connection = { 
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PWD,
+    database: process.env.DB,
     waitForConnections: true
-  });
-connection.connect(function(err) {
-    if(err){
-        console.log(err.code);
-        console.log(err.fatal);
-    }else{
-        console.log(`Database Connected`)
-        connection.query(`SHOW DATABASES`, 
-        function (err, result) {
-          if(err)
-            console.log(`Error executing the query - ${err}`)
-          else
-            console.log("Result: ",result) 
-        })
-      }
-});
-//#endregion
+  };
+  const pool = mysql.createPool(connection);
 
-module.exports = connection;
+  async function query(sql, params) {
+    const [rows, fields] = await pool.execute(sql, params);
+  
+    return rows;
+  }
+  
+  module.exports = {
+    query
+  }

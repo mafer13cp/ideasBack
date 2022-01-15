@@ -7,6 +7,8 @@ router.get('/', async (req, res) => {
     let sql = "SELECT * FROM idea";
     try {
         let sql = "SELECT * FROM idea";
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.status(200).send(await connection.query(sql));
     } catch (error) {
         console.log(error);
@@ -17,6 +19,8 @@ router.get('/', async (req, res) => {
 router.get("/:id", async(req, res) => {
     let sql = `SELECT * FROM idea WHERE id = ${req.params.id}`;
     try {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.status(200).send(await connection.query(sql));
     } catch (error) {
         console.log(error);
@@ -28,6 +32,8 @@ router.post("/post", async(req, res) => {
     let sql = "INSERT INTO `idea` (`id`, `date`, `summary`, `asignees`, `workflow`, `reviewScore`, `reviewNumber`, `user`, `anonymous`) VALUES (NULL, ?,?,?,?,?,?,?,?)";
     const {date, summary, asignees, workflow, reviewScore, reviewNumber, user, anonymous} = req.body;
     try {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.status(200).send(await connection.query(sql, [date,summary,asignees,workflow,reviewScore,reviewNumber,user,anonymous]));
     } catch (error) {
         console.log(error);
@@ -39,6 +45,8 @@ router.put("/update/:id", async(req, res) => {
     let sql = "UPDATE `idea` SET `date` = ?, `summary` = ?, `asignees` = ?, `workflow` = ?, `reviewScore` = ?, `reviewNumber` = ?, `user` = ?, `anonymous` = ? WHERE `id` = " + req.params.id;
     const {date, summary, asignees, workflow, reviewScore, reviewNumber, user, anonymous} = req.body;
     try {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.status(200).send(await connection.query(sql, [date,summary,asignees,workflow,reviewScore,reviewNumber,user,anonymous]));
     } catch (error) {
         console.log(error);
@@ -50,6 +58,8 @@ router.put("/update/:id", async(req, res) => {
 router.delete("/delete/:id", async(req, res) => {
     let sql = `DELETE FROM idea WHERE id = ${req.params.id}`;
     try {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.status(200).send(await connection.query(sql));
     } catch (error) {
         console.log(error);

@@ -9,7 +9,7 @@ const app = express();
 const db = require('./database')
 
 //Settings
-app.set('port', PORT);
+app.set('port', process.env.PORT);
 
 //Middleware
 app.use(morgan());
@@ -21,8 +21,8 @@ app.use('/ideas',require('./routes/ideas'));
 
 
 //Server start
-app.listen(PORT, () => {
-    console.log('Server on port', PORT);
+app.listen(app.get('port'), () => {
+    console.log('Server on port', app.get('port'));
 })
 //home page
 app.get('/', (req, res) => {

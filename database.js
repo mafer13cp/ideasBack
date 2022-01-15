@@ -2,10 +2,10 @@ const mysql = require('mysql2/promise');
 
 //#region mysql database connection
 var connection = { 
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PWD,
-    database: process.env.DB,
+    host: 'remotemysql.com',
+    user: 'CbN8P9BIlq',
+    password: 'etkjsmy5CS',
+    database: 'CbN8P9BIlq',
     waitForConnections: true
   };
   const pool = mysql.createPool(connection);

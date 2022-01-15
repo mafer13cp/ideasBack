@@ -2,10 +2,7 @@ const mysql = require('mysql');
 
 //#region mysql database connection
 var connection = mysql.createConnection({ 
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PWD,
-    database: process.env.DB,
+    url: DATABASE_URL,
     waitForConnections: true
   });
 connection.connect(function(err) {
